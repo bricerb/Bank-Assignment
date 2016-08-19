@@ -1,5 +1,6 @@
 package tiyinc.noobs;
 
+import java.io.File;
 import java.util.Scanner;
 
 /**
@@ -9,6 +10,14 @@ public class Bank {
     private String name = "Banque Nationale Française";
 
     public Bank() {
+
+    }
+
+    public void BankMenu(String customer) {
+        System.out.println("Welcome " + customer);
+        System.out.println("What would you like to do?\n");
+        System.out.println("1. Add a new account");
+        System.out.println("2. Interace with an account");
 
     }
 
@@ -33,7 +42,8 @@ public class Bank {
         return name;
     }
 
-    public void addBankAccount(BankAccount acct) {
+    public void addBankAccount() {
+        BankRunner myRunner = new BankRunner();
         Scanner inputScanner = new Scanner(System.in);
         System.out.println("What will you name this account?");
         String acctName = inputScanner.nextLine();
@@ -48,18 +58,44 @@ public class Bank {
             System.out.println("How much will be your first Deposit?");
             double initDeposit = Double.valueOf(inputScanner.nextLine());
             newAcct.setBalance(initDeposit);
+            myRunner.writeAccountFile(newAcct);
         } else if (userChoice == 2) {
             BankAccount newAcct = new SavingsAccount();
             newAcct.setName(acctName);
             System.out.println("How much will be your first Deposit?");
             double initDeposit = Double.valueOf(inputScanner.nextLine());
             newAcct.setBalance(initDeposit);
+            myRunner.writeAccountFile(newAcct);
         } else if (userChoice == 3) {
             BankAccount newAcct = new RetirementAccount();
             newAcct.setName(acctName);
             System.out.println("How much will be your first Deposit?");
             double initDeposit = Double.valueOf(inputScanner.nextLine());
             newAcct.setBalance(initDeposit);
+            myRunner.writeAccountFile(newAcct);
+        }
+    }
+
+    public void printCustomerList() {
+        try {
+            File testFile = new File("Clients.txt");
+            Scanner fileScanner = new Scanner(testFile);
+
+            String scanString = fileScanner.nextLine();
+
+            String[] parts = scanString.split(",");
+
+            int index = 0;
+
+            for (String currentPart : parts) {
+                    System.out.print((index + 1) + ". ");
+                System.out.println(currentPart);
+                index++;
+            }
+
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 }

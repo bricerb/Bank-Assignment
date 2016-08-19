@@ -1,0 +1,3 @@
+name:abc
+balance:300.0
+type:Checking
