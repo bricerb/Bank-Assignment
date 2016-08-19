@@ -23,18 +23,16 @@ public abstract class BankAccount {
         this.name = name;
     }
 
-    public void deposit() {
-
+    public void deposit(int depositAmount) {
+        this.balance += depositAmount;
     }
-    public void withdraw() {
-
+    public void withdraw(int withdrawAmount) {
+        this.balance -= withdrawAmount;
     }
 
     public void transfer() {
 
     }
 
-    public abstract void interestRate() {
-
-    }
+    public abstract void interestRate();
 }
