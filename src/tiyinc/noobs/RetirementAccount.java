@@ -6,10 +6,24 @@ package tiyinc.noobs;
 public class RetirementAccount extends BankAccount{
     private double balance;
 
+    public void run() {
+        try {
+            SavingsAccount savingsThread = new SavingsAccount();
+
+            Thread actualThread = new Thread(savingsThread);
+            actualThread.start();
+            while (true) {
+                Thread.sleep(120000);
+                interestRate();
+                }
+            } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public void interestRate() {
         try {
             while (true) {
-                Thread.sleep(120000);
                 this.balance = (balance * 1.05);
             }
         } catch (Exception ex){
