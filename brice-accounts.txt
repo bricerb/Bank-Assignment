@@ -1,6 +1,9 @@
 name:thaisda
-balance:50.0
+balance:47.0
 type:Checking
 name:edf
+balance:100.0
+type:Savings
+name:ifa
 balance:100.0
 type:Savings
