@@ -23,10 +23,10 @@ public abstract class BankAccount {
         this.name = name;
     }
 
-    public void deposit(int depositAmount) {
+    public void deposit(double depositAmount) {
         this.balance += depositAmount;
     }
-    public void withdraw(int withdrawAmount) {
+    public void withdraw(double withdrawAmount) {
         this.balance -= withdrawAmount;
     }
 

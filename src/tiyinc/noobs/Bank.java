@@ -23,7 +23,6 @@ public class Bank implements Runnable{
         Scanner inputScanner = new Scanner(System.in);
         BankRunner myRunner = new BankRunner();
 
-
         while (true) {
             System.out.println("What would you like to do?\n");
             System.out.println("0. Back to Bank Menu\n");
@@ -34,7 +33,35 @@ public class Bank implements Runnable{
             if (userChoice == 1) {
                 addBankAccount(customer);
             } else if (userChoice == 2) {
-                myRunner.readAccountFile(customer.getName());
+                myRunner.readAccountFile(customer);
+                for (BankAccount currentAccount : customer.listOfAccounts) {
+                    int index = 1;
+                    System.out.println(index + ". " + currentAccount.getName());
+                    System.out.println("\nSelect an Account to interact with");
+                    userChoice = Integer.valueOf(inputScanner.nextLine());
+                    BankAccount myAcct = customer.listOfAccounts.get(userChoice - 1);
+                    while(true) {
+                        System.out.println("What would you like to do?");
+                        System.out.println("1. Withdraw");
+                        System.out.println("2. Deposit");
+                        System.out.println("3. Transfer");
+                        if (userChoice == 1) {
+                            System.out.println("How much would you like to withdraw?");
+                            double withdrawAmount = Double.valueOf(inputScanner.nextLine());
+                            myAcct.withdraw(withdrawAmount);
+                            myRunner.writeAccountFile(customer);
+                            break;
+                        } else if (userChoice == 2) {
+                            System.out.println("How much would you like to deposit?");
+                            double depositAMount = Double.valueOf(inputScanner.next());
+                            myAcct.deposit(depositAMount);
+                            myRunner.writeAccountFile(customer);
+                            break;
+                        } else if (userChoice == 3) {
+                            System.out.println("xfer");
+                        }
+                    }
+                }
             } else if (userChoice == 0) {
                 break;
             } else {
@@ -48,6 +75,7 @@ public class Bank implements Runnable{
         Bank myBank = new Bank();
         Customer myCustomer = new Customer();
         double total = 0.0;
+        String balance = null;
 
         try {
 
@@ -61,6 +89,13 @@ public class Bank implements Runnable{
 
                 for (String currentPart : parts) {
                     File accountFile = new File(currentPart + "-accounts.txt");
+                    Scanner acctScanner = new Scanner (accountFile);
+                    while(acctScanner.hasNext()) {
+                        String currLine = acctScanner.nextLine();
+                        if (currLine.startsWith("balance")) {
+                            total += Double.valueOf(currLine.split(":")[1]);
+                        }
+                    }
 
                 }
 

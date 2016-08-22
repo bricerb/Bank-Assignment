@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Customer {
     private String name;
-    ArrayList<BankAccount> listOfAccounts;
+    ArrayList<BankAccount> listOfAccounts = new ArrayList<BankAccount>();
 
     public String getName() {
         return name;

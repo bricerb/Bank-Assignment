@@ -3,6 +3,7 @@ package tiyinc.noobs;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -82,7 +83,6 @@ public class BankRunner{
     }
 
     public void writeAccountFile(Customer customer) {
-        System.out.println("writeBankFile()");
         FileWriter testWriter = null;
         String custName = customer.getName();
 
@@ -144,11 +144,11 @@ public class BankRunner{
         }
     }
 
-    public void readAccountFile(String customer) {
+    public void readAccountFile(Customer customer) {
         try {
-            File testFile = new File(customer + "-accounts.txt");
+            File testFile = new File(customer.getName() + "-accounts.txt");
             Scanner fileScanner = new Scanner(testFile);
-            Customer myCustomer = new Customer();
+//            Customer myCustomer = new Customer();
 
             String bankName = null;
             String bankBalance = null;
@@ -162,29 +162,31 @@ public class BankRunner{
                 if (currLine.startsWith("name")) {
                     bankName = currLine.split(":")[1];
                 }
-                if (currLine.startsWith("Balance")) {
-                    bankBalance = currLine.split(":")[1];
-                    acctBalance = Double.valueOf(bankBalance);
+                if (currLine.startsWith("balance")) {
+                    acctBalance = Double.valueOf(currLine.split(":")[1]);
                 }
                 if (currLine.startsWith("type")) {
                     bankType = currLine.split(":")[1];
                     if (bankType.equals("Checking")) {
                         BankAccount myAccount = new CheckingAccount();
-                        myAccount.setBalance(Double.valueOf(bankBalance));
+                        myAccount.setBalance(acctBalance);
                         myAccount.setName(bankName);
-                        myCustomer.listOfAccounts.add(myAccount);
+                        customer.listOfAccounts.add(myAccount);
+                        writeAccountFile(customer);
 //                        return myAccount;
                     } else if (bankType.equals("Savings")) {
                         BankAccount myAccount = new SavingsAccount();
-                        myAccount.setBalance(Double.valueOf(bankBalance));
+                        myAccount.setBalance(acctBalance);
                         myAccount.setName(bankName);
-                        myCustomer.listOfAccounts.add(myAccount);
+                        customer.listOfAccounts.add(myAccount);
+                        writeAccountFile(customer);
 //                        return myAccount;
                     } else if (bankType.equals("Retirement")) {
+                        writeAccountFile(customer);
                         BankAccount myAccount = new RetirementAccount();
-                        myAccount.setBalance(Double.valueOf(bankBalance));
+                        myAccount.setBalance(acctBalance);
                         myAccount.setName(bankName);
-                        myCustomer.listOfAccounts.add(myAccount);
+                        customer.listOfAccounts.add(myAccount);
 //                        return myAccount;
                     }
                 }
