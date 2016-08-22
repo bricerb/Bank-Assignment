@@ -1,9 +1,9 @@
-name:thaisda
-balance:47.0
+name:CheckItOut
+balance:87.0
 type:Checking
-name:edf
+name:SaveMe
 balance:100.0
 type:Savings
-name:ifa
-balance:100.0
+name:Win to Save
+balance:60.0
 type:Savings
