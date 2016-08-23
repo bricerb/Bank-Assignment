@@ -4,14 +4,11 @@ package tiyinc.noobs;
  * Created by Brice on 8/18/16.
  */
 public class SavingsAccount extends BankAccount implements Runnable{
+    private boolean threadFlag = true;
 
     public void run() {
         try {
-                SavingsAccount savingsThread = new SavingsAccount();
-
-                Thread actualThread = new Thread(savingsThread);
-                actualThread.start();
-                while (true) {
+                while (threadFlag) {
                     Thread.sleep(10000);
                     interestRate();
                 }
@@ -21,15 +18,14 @@ public class SavingsAccount extends BankAccount implements Runnable{
     }
 
     public void interestRate() {
-
-        while(true) {
-            try {
-                double currBalance = getBalance();
-                setBalance(currBalance * 1.1);
-            } catch (Exception ex){
-                ex.printStackTrace();
-            }
+        try {
+            setBalance(getBalance() * 1.05);
+        } catch (Exception ex){
+            ex.printStackTrace();
         }
     }
 
+    public void setThreadFlag(boolean threadFlag) {
+        this.threadFlag = threadFlag;
+    }
 }

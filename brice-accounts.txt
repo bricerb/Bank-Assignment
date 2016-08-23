@@ -1,9 +1,12 @@
-name:CheckItOut
-balance:87.0
+name:Test
+balance:475.0
 type:Checking
-name:SaveMe
-balance:100.0
+name:i don't know
+balance:975.0
+type:Retirement
+name:Threader
+balance:1477.455443789063
 type:Savings
-name:Win to Save
-balance:60.0
-type:Savings
+name:Thisisit
+balance:49.0
+type:Checking

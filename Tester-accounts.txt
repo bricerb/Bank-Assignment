@@ -1,6 +1,0 @@
-name:tifa
-balance:500.0
-type:Checking
-name:idris
-balance:120.0
-type:Savings

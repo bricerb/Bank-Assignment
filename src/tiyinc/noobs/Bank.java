@@ -7,22 +7,15 @@ import java.util.Scanner;
 /**
  * Created by Brice on 8/18/16.
  */
-public class Bank implements Runnable{
+public class Bank {
     private String name = "Banque Nationale Française";
-    ArrayList<Customer> customerArrayList;
+    private ArrayList<Customer> customerArrayList = new ArrayList<Customer>();
 
-    public Bank() {
-
-    }
-
-    public void run() {
-
-    }
-
-    public void BankMenu(Customer customer) {
+    public void BankMenu(Bank myBank, Integer arrayIndex) {
         Scanner inputScanner = new Scanner(System.in);
         BankRunner myRunner = new BankRunner();
-        int index = 1;
+        Customer customer = myBank.customerArrayList.get(arrayIndex);
+
 
         while (true) {
             System.out.println("What would you like to do " + customer.getName() + "?\n");
@@ -35,14 +28,16 @@ public class Bank implements Runnable{
             if (userChoice == 1) {
                 addBankAccount(customer);
             } else if (userChoice == 2) {
-                myRunner.readAccountFile(customer);
-                for (BankAccount currentAccount : customer.listOfAccounts) {
+//                myRunner.readAccountFile(customer);
+//                customer.printListOfAccounts(customer.getListOfAccounts());
+                int index = 1;
+                for (BankAccount currentAccount : customer.getListOfAccounts()) {
                     System.out.println(index + ". " + currentAccount.getName());
                     index++;
                 }
                     System.out.println("\nSelect an Account");
                     userChoice = Integer.valueOf(inputScanner.nextLine());
-                    BankAccount myAcct = customer.listOfAccounts.get(userChoice - 1);
+                    BankAccount myAcct = customer.getListOfAccounts().get(userChoice - 1);
                     while (true) {
                         System.out.println("What would you like to do with your " + myAcct.getName() + " account?\n");
                         System.out.println("0. Return to Account Selection");
@@ -67,25 +62,34 @@ public class Bank implements Runnable{
                         } else if (userChoice == 3) {
                             index = 1;
                             System.out.println("Which Account will you be transfering to");
-                            for (BankAccount transAccount : customer.listOfAccounts) {
+                            for (BankAccount transAccount : customer.getListOfAccounts()) {
                                 System.out.println(index + ". " + transAccount.getName());
                                 index++;
                             }
                                 userChoice = Integer.valueOf(inputScanner.nextLine());
-                                BankAccount myTransAcct = customer.listOfAccounts.get(userChoice - 1);
-                            System.out.println("How much will you be transfering from " + myAcct.getName() + " to " + myTransAcct.getName() + "?");
-                            double transferAmount = Double.valueOf(inputScanner.nextLine());
-                            myAcct.withdraw(transferAmount);
-                            myTransAcct.deposit(transferAmount);
-                            myRunner.writeAccountFile(customer);
+
+                                BankAccount myTransAcct = customer.getListOfAccounts().get(userChoice - 1);
+                            if (myAcct == myTransAcct) {
+                                System.out.println("You can transfer to the same account!");
+                            } else {
+                                System.out.println("How much will you be transfering from " + myAcct.getName() + " to " + myTransAcct.getName() + "?");
+                                double transferAmount = Double.valueOf(inputScanner.nextLine());
+                                myAcct.withdraw(transferAmount);
+                                myTransAcct.deposit(transferAmount);
+                                myRunner.writeAccountFile(customer);
                             }
                         }
+                    }
             } else if (userChoice == 3) {
-                myRunner.readAccountFile(customer);
-                for (BankAccount listAccount : customer.listOfAccounts) {
+
+                for (BankAccount listAccount : customer.getListOfAccounts()) {
                     System.out.println(listAccount.getName() + " : " + listAccount.getBalance());
                 }
             } else if (userChoice == 0) {
+                SavingsAccount savingsAccount = new SavingsAccount();
+                savingsAccount.setThreadFlag(false);
+                RetirementAccount retirementAccount = new RetirementAccount();
+                retirementAccount.setThreadFlag(false);
                 break;
             } else {
                 System.out.println("Invalid Input. Please try again.");
@@ -95,10 +99,10 @@ public class Bank implements Runnable{
     }
 
     public double getTotalInDeposits() {
-        Bank myBank = new Bank();
-        Customer myCustomer = new Customer();
+//        Bank myBank = new Bank();
+//        Customer myCustomer = new Customer();
         double total = 0.0;
-        String balance = null;
+//        String balance = null;
 
         try {
 
@@ -165,7 +169,7 @@ public class Bank implements Runnable{
             System.out.println("How much will be your first Deposit?");
             double initDeposit = Double.valueOf(inputScanner.nextLine());
             newAcct.setBalance(initDeposit);
-            customer.listOfAccounts.add(newAcct);
+            customer.addListOfAccounts(newAcct);
             myRunner.writeAccountFile(customer);
         } else if (userChoice == 2) {
             BankAccount newAcct = new SavingsAccount();
@@ -173,7 +177,7 @@ public class Bank implements Runnable{
             System.out.println("How much will be your first Deposit?");
             double initDeposit = Double.valueOf(inputScanner.nextLine());
             newAcct.setBalance(initDeposit);
-            customer.listOfAccounts.add(newAcct);
+            customer.addListOfAccounts(newAcct);
             myRunner.writeAccountFile(customer);
         } else if (userChoice == 3) {
             BankAccount newAcct = new RetirementAccount();
@@ -181,7 +185,7 @@ public class Bank implements Runnable{
             System.out.println("How much will be your first Deposit?");
             double initDeposit = Double.valueOf(inputScanner.nextLine());
             newAcct.setBalance(initDeposit);
-            customer.listOfAccounts.add(newAcct);
+            customer.addListOfAccounts(newAcct);
             myRunner.writeAccountFile(customer);
         }
     }
@@ -209,32 +213,15 @@ public class Bank implements Runnable{
         }
     }
 
-    public void generateCustomerAccounts() {
-        try {
-            File testFile = new File("Clients.txt");
-            Scanner fileScanner = new Scanner(testFile);
-            Customer myCustomer = new Customer();
-            Bank myBank = new Bank();
+    public ArrayList<Customer> getCustomerArrayList() {
+        return customerArrayList;
+    }
 
-            String scanString = fileScanner.nextLine();
+    public void setCustomerArrayList(ArrayList<Customer> customerArrayList) {
+        this.customerArrayList = customerArrayList;
+    }
 
-            String[] parts = scanString.split(",");
-
-            int index = 0;
-
-            for (String currentPart : parts) {
-                myCustomer.setName(currentPart);
-
-
-                myBank.customerArrayList.add(myCustomer);
-
-
-                index++;
-            }
-
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
+    public void addCustomerArraylist(Customer customer) {
+        customerArrayList.add(customer);
     }
 }
