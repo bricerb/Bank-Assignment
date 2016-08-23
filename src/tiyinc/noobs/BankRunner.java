@@ -134,7 +134,8 @@ public class BankRunner {
                 if (userName.equals(currentPart)) {
                     myCustomer.setName(userName);
                     System.out.println("Welcome back, " + userName);
-                    myBank.BankMenu(myBank, arrayIndex);
+                    myBank.setArrayIndex(arrayIndex);
+                    myBank.BankMenu(myBank);
                     exists = true;
                 }
                 arrayIndex++;
@@ -142,7 +143,7 @@ public class BankRunner {
             if (exists == false) {
                 writeCustomerFile(userName, parts);
                 System.out.println("Welcome new customer, " + userName);
-                myBank.BankMenu(myBank, arrayIndex);
+                myBank.BankMenu(myBank);
             }
         } catch (Exception exception) {
             exception.printStackTrace();

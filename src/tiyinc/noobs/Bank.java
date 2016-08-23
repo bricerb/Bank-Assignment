@@ -10,11 +10,22 @@ import java.util.Scanner;
 public class Bank {
     private String name = "Banque Nationale Française";
     private ArrayList<Customer> customerArrayList = new ArrayList<Customer>();
+    private int arrayIndex;
 
-    public void BankMenu(Bank myBank, Integer arrayIndex) {
+    public int getArrayIndex() {
+        return arrayIndex;
+    }
+
+    public void setArrayIndex(int arrayIndex) {
+        this.arrayIndex = arrayIndex;
+    }
+
+    public void BankMenu(Bank myBank) {
         Scanner inputScanner = new Scanner(System.in);
         BankRunner myRunner = new BankRunner();
-        Customer customer = myBank.customerArrayList.get(arrayIndex);
+        Customer customer = myBank.customerArrayList.get(getArrayIndex());
+
+
 
 
         while (true) {

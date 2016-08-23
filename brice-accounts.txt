@@ -1,12 +1,12 @@
 name:Test
-balance:475.0
+balance:875.0
 type:Checking
 name:i don't know
-balance:975.0
+balance:475.0
 type:Retirement
 name:Threader
-balance:1477.455443789063
+balance:1795.8563260221301
 type:Savings
 name:Thisisit
-balance:49.0
+balance:149.0
 type:Checking
