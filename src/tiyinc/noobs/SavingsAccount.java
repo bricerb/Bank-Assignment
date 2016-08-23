@@ -5,10 +5,17 @@ package tiyinc.noobs;
  */
 public class SavingsAccount extends BankAccount implements Runnable{
     private boolean threadFlag = true;
+    Bank myBank;
+
+    public SavingsAccount(Bank myBank) {
+        this.myBank = myBank;
+        Thread newThread = new Thread(this);
+        newThread.start();
+    }
 
     public void run() {
         try {
-                while (threadFlag) {
+                while (myBank.threadFlag) {
                     Thread.sleep(10000);
                     interestRate();
                 }

@@ -5,10 +5,18 @@ package tiyinc.noobs;
  */
 public class RetirementAccount extends BankAccount implements Runnable{
     private boolean threadFlag = true;
+    Bank myBank;
+
+    public RetirementAccount(Bank myBank) {
+        this.myBank = myBank;
+
+        Thread newThread = new Thread(this);
+        newThread.start();
+    }
 
     public void run() {
         try {
-                while (threadFlag) {
+                while (myBank.threadFlag) {
                     Thread.sleep(120000);
                     interestRate();
                 }

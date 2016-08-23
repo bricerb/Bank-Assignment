@@ -65,6 +65,7 @@ public class BankRunner {
         FileWriter testWriter = null;
 
         try {
+
             File testFile = new File("Clients.txt");
             testWriter = new FileWriter(testFile);
             for (String partsArray : parts) {
@@ -85,11 +86,13 @@ public class BankRunner {
         }
     }
 
-    public void writeAccountFile(Customer customer) {
+    public void writeAccountFile(Bank myBank) {
         FileWriter testWriter = null;
-        String custName = customer.getName();
 
         try {
+            for (Customer customer : myBank.getCustomerArrayList()) {
+            String custName = customer.getName();
+                System.out.println(custName);
             File testFile = new File(custName + "-accounts.txt");
             testWriter = new FileWriter(testFile);
 
@@ -103,6 +106,7 @@ public class BankRunner {
                 } else if (currAccount instanceof RetirementAccount) {
                     testWriter.write("type:Retirement\n");
                 }
+            }
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -118,7 +122,6 @@ public class BankRunner {
     }
 
     public void checkCustomerFile(Bank myBank, String userName) {
-//        Bank myBank = new Bank();
         Customer myCustomer = new Customer();
         try {
             File testFile = new File("Clients.txt");
@@ -132,7 +135,6 @@ public class BankRunner {
 
             for (String currentPart : parts) {
                 if (userName.equals(currentPart)) {
-                    myCustomer.setName(userName);
                     System.out.println("Welcome back, " + userName);
                     myBank.setArrayIndex(arrayIndex);
                     myBank.BankMenu(myBank);
@@ -143,6 +145,9 @@ public class BankRunner {
             if (exists == false) {
                 writeCustomerFile(userName, parts);
                 System.out.println("Welcome new customer, " + userName);
+                myCustomer.setName(userName);
+                myBank.setArrayIndex(arrayIndex);
+                myBank.addCustomerArraylist(myCustomer);
                 myBank.BankMenu(myBank);
             }
         } catch (Exception exception) {
@@ -150,7 +155,7 @@ public class BankRunner {
         }
     }
 
-    public void readAccountFile(Customer customer) {
+    public void readAccountFile(Bank myBank, Customer customer) {
         try {
             File testFile = new File(customer.getName() + "-accounts.txt");
             Scanner fileScanner = new Scanner(testFile);
@@ -179,18 +184,14 @@ public class BankRunner {
 //                        writeAccountFile(customer);
 //                        return myAccount;
                     } else if (bankType.equals("Savings")) {
-                        SavingsAccount myAccount = new SavingsAccount();
-                        Thread newThread = new Thread(myAccount);
-                        newThread.start();
+                        SavingsAccount myAccount = new SavingsAccount(myBank);
                         myAccount.setBalance(acctBalance);
                         myAccount.setName(bankName);
 //                        customer.addListOfAccounts(myAccount);
 //                        writeAccountFile(customer);
 //                        return myAccount;
                     } else if (bankType.equals("Retirement")) {
-                        RetirementAccount myAccount = new RetirementAccount();
-                        Thread newThread = new Thread(myAccount);
-                        newThread.start();
+                        RetirementAccount myAccount = new RetirementAccount(myBank);
                         myAccount.setBalance(acctBalance);
                         myAccount.setName(bankName);
 //                        customer.addListOfAccounts(myAccount);
@@ -217,7 +218,7 @@ public class BankRunner {
             for (String currentPart : parts) {
                 Customer myCustomer = new Customer();
                 myCustomer.setName(currentPart);
-                readAccountFile(myCustomer);
+                readAccountFile(myBank, myCustomer);
                 myBank.addCustomerArraylist(myCustomer);
                 //At this point we have 3 accounts.//
             }
@@ -260,23 +261,19 @@ public class BankRunner {
 //                        writeAccountFile(customer);
 //                        return myAccount;
                         } else if (bankType.equals("Savings")) {
-                            SavingsAccount myAccount = new SavingsAccount();
+                            SavingsAccount myAccount = new SavingsAccount(myBank);
                             myAccount.setBalance(acctBalance);
                             myAccount.setName(bankName);
                             customer.addListOfAccounts(myAccount);
 
-                            Thread newThread = new Thread(myAccount);
-                            newThread.start();
 //                        writeAccountFile(customer);
 //                        return myAccount;
                         } else if (bankType.equals("Retirement")) {
-                            RetirementAccount myAccount = new RetirementAccount();
+                            RetirementAccount myAccount = new RetirementAccount(myBank);
                             myAccount.setBalance(acctBalance);
                             myAccount.setName(bankName);
                             customer.addListOfAccounts(myAccount);
 
-                            Thread newThread = new Thread(myAccount);
-                            newThread.start();
 //                        writeAccountFile(customer);
 //                        return myAccount;
                         }

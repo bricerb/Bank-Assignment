@@ -11,6 +11,7 @@ public class Bank {
     private String name = "Banque Nationale Française";
     private ArrayList<Customer> customerArrayList = new ArrayList<Customer>();
     private int arrayIndex;
+    static boolean threadFlag = true;
 
     public int getArrayIndex() {
         return arrayIndex;
@@ -62,13 +63,11 @@ public class Bank {
                             System.out.println("How much would you like to withdraw from " + myAcct.getName() + "?");
                             double withdrawAmount = Double.valueOf(inputScanner.nextLine());
                             myAcct.withdraw(withdrawAmount);
-                            myRunner.writeAccountFile(customer);
                             break;
                         } else if (userChoice == 2) {
                             System.out.println("How much would you like to deposit? from " + myAcct.getName() + "?");
                             double depositAMount = Double.valueOf(inputScanner.next());
                             myAcct.deposit(depositAMount);
-                            myRunner.writeAccountFile(customer);
                             break;
                         } else if (userChoice == 3) {
                             index = 1;
@@ -87,7 +86,6 @@ public class Bank {
                                 double transferAmount = Double.valueOf(inputScanner.nextLine());
                                 myAcct.withdraw(transferAmount);
                                 myTransAcct.deposit(transferAmount);
-                                myRunner.writeAccountFile(customer);
                             }
                         }
                     }
@@ -97,14 +95,11 @@ public class Bank {
                     System.out.println(listAccount.getName() + " : " + listAccount.getBalance());
                 }
             } else if (userChoice == 0) {
-                SavingsAccount savingsAccount = new SavingsAccount();
-                savingsAccount.setThreadFlag(false);
-                RetirementAccount retirementAccount = new RetirementAccount();
-                retirementAccount.setThreadFlag(false);
+                myBank.threadFlag = false;
+                myRunner.writeAccountFile(myBank);
                 break;
             } else {
                 System.out.println("Invalid Input. Please try again.");
-
             }
         }
     }
@@ -181,23 +176,20 @@ public class Bank {
             double initDeposit = Double.valueOf(inputScanner.nextLine());
             newAcct.setBalance(initDeposit);
             customer.addListOfAccounts(newAcct);
-            myRunner.writeAccountFile(customer);
         } else if (userChoice == 2) {
-            BankAccount newAcct = new SavingsAccount();
+            BankAccount newAcct = new SavingsAccount(this);
             newAcct.setName(acctName);
             System.out.println("How much will be your first Deposit?");
             double initDeposit = Double.valueOf(inputScanner.nextLine());
             newAcct.setBalance(initDeposit);
             customer.addListOfAccounts(newAcct);
-            myRunner.writeAccountFile(customer);
         } else if (userChoice == 3) {
-            BankAccount newAcct = new RetirementAccount();
+            BankAccount newAcct = new RetirementAccount(this);
             newAcct.setName(acctName);
             System.out.println("How much will be your first Deposit?");
             double initDeposit = Double.valueOf(inputScanner.nextLine());
             newAcct.setBalance(initDeposit);
             customer.addListOfAccounts(newAcct);
-            myRunner.writeAccountFile(customer);
         }
     }
 
