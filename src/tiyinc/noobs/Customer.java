@@ -22,10 +22,6 @@ public class Customer {
         return listOfAccounts;
     }
 
-    public void setListOfAccounts(ArrayList<BankAccount> listOfAccounts) {
-        this.listOfAccounts = listOfAccounts;
-    }
-
     public void addListOfAccounts(BankAccount account) {
         listOfAccounts.add(account);
     }

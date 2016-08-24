@@ -1,0 +1,9 @@
+name:this
+balance:100.0
+type:Checking
+name:SAVEME
+balance:16.28894626777442
+type:Savings
+name:time to go
+balance:10000.0
+type:Retirement

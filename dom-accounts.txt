@@ -1,0 +1,9 @@
+name:SAVE ME FROM MY JAVA STUDENTS
+balance:13.400956406250003
+type:Savings
+name:Check my Ping Pong!
+balance:500.0
+type:Checking
+name:Pour la Campagne
+balance:10000.0
+type:Retirement

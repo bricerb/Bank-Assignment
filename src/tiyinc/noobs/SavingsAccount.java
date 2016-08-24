@@ -4,7 +4,6 @@ package tiyinc.noobs;
  * Created by Brice on 8/18/16.
  */
 public class SavingsAccount extends BankAccount implements Runnable{
-    private boolean threadFlag = true;
     Bank myBank;
 
     public SavingsAccount(Bank myBank) {
@@ -30,9 +29,5 @@ public class SavingsAccount extends BankAccount implements Runnable{
         } catch (Exception ex){
             ex.printStackTrace();
         }
-    }
-
-    public void setThreadFlag(boolean threadFlag) {
-        this.threadFlag = threadFlag;
     }
 }

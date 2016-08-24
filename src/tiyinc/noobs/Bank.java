@@ -113,17 +113,18 @@ public class Bank {
         try {
 
             File clientFile = new File("Clients.txt");
-            Scanner fileScanner = new Scanner(clientFile);
+            if (clientFile.exists()) {
+                Scanner fileScanner = new Scanner(clientFile);
 
-            String scanString = fileScanner.nextLine();
+                String scanString = fileScanner.nextLine();
 
-            String[] parts = scanString.split(",");
+                String[] parts = scanString.split(",");
 
 
                 for (String currentPart : parts) {
                     File accountFile = new File(currentPart + "-accounts.txt");
-                    Scanner acctScanner = new Scanner (accountFile);
-                    while(acctScanner.hasNext()) {
+                    Scanner acctScanner = new Scanner(accountFile);
+                    while (acctScanner.hasNext()) {
                         String currLine = acctScanner.nextLine();
                         if (currLine.startsWith("balance")) {
                             total += Double.valueOf(currLine.split(":")[1]);
@@ -131,8 +132,7 @@ public class Bank {
                     }
 
                 }
-
-
+            }
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
@@ -143,7 +143,7 @@ public class Bank {
 
         System.out.println("===================================================================");
         System.out.println("Bank Name: " + name);
-        System.out.println("Total money in bank: " + getTotalInDeposits());
+        System.out.println("Total money in bank: $" + getTotalInDeposits());
         System.out.println("Account Holders: ");
         printCustomerList();
         System.out.println("===================================================================");
@@ -159,10 +159,9 @@ public class Bank {
         BankRunner myRunner = new BankRunner();
         Scanner inputScanner = new Scanner(System.in);
 
-
         System.out.println("What will you name this account?");
         String acctName = inputScanner.nextLine();
-        System.out.println("\nWhat kind of account would you like to begin with?");
+        System.out.println("\nWhat kind of account would you like to create?");
         System.out.println("1. Checking");
         System.out.println("2. Savings");
         System.out.println("3. Retirement");
@@ -196,21 +195,23 @@ public class Bank {
     public void printCustomerList() {
         try {
             File testFile = new File("Clients.txt");
-            Scanner fileScanner = new Scanner(testFile);
+            if (testFile.exists()) {
+                Scanner fileScanner = new Scanner(testFile);
 
-            String scanString = fileScanner.nextLine();
+                String scanString = fileScanner.nextLine();
 
-            String[] parts = scanString.split(",");
+                String[] parts = scanString.split(",");
 
-            int index = 0;
+                int index = 0;
 
-            for (String currentPart : parts) {
+                for (String currentPart : parts) {
                     System.out.print((index + 1) + ". ");
-                System.out.println(currentPart);
-                index++;
+                    System.out.println(currentPart);
+                    index++;
+                }
+            } else {
+                System.out.println("There are no accounts at this bank");
             }
-
-
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -218,10 +219,6 @@ public class Bank {
 
     public ArrayList<Customer> getCustomerArrayList() {
         return customerArrayList;
-    }
-
-    public void setCustomerArrayList(ArrayList<Customer> customerArrayList) {
-        this.customerArrayList = customerArrayList;
     }
 
     public void addCustomerArraylist(Customer customer) {
